@@ -6,7 +6,7 @@
 /*   By: gsysaath <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 23:49:03 by gsysaath          #+#    #+#             */
-/*   Updated: 2017/12/20 04:18:03 by gsysaath         ###   ########.fr       */
+/*   Updated: 2017/12/22 03:29:09 by gsysaath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 # define GET_NEXT_LINE_H
 # include "libft/libft.h"
 # define BUFF_SIZE 8
+
+typedef struct			s_2list
+{
+	int					fd;
+	char				*buf;
+	char				tmp[BUFF_SIZE + 1];
+	struct s_2list		*next;
+}						t_2list;
 
 int		get_next_line(const int fd, char **line);
 

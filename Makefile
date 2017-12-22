@@ -6,7 +6,7 @@
 #    By: gsysaath <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/09 00:51:14 by gsysaath          #+#    #+#              #
-#    Updated: 2017/12/20 04:06:06 by gsysaath         ###   ########.fr        #
+#    Updated: 2017/12/22 02:00:11 by gsysaath         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC = main.c \
 	  libft/ft_strcat.c \
 
 
-HEAD = libft.h \
+HEAD = libft/libft.h \
 	   get_next_line.h \
 
 

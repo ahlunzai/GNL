@@ -6,11 +6,10 @@
 /*   By: gsysaath <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 01:54:28 by gsysaath          #+#    #+#             */
-/*   Updated: 2017/12/20 04:21:05 by gsysaath         ###   ########.fr       */
+/*   Updated: 2017/12/22 07:42:55 by gsysaath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "get_next_line.h"
 #include <stdio.h>
 
@@ -29,50 +28,47 @@ char		*beforebn(char *buf, char *tmp)
 	return (ft_strjoin(s1, s2));
 }
 
-static char			*bntmp(char **line, char *buf, char *tmp)
+static int			bntmp(char **line, char *buf, char *tmp)
 {
 	*line = beforebn(buf, tmp);
 	buf = ft_strdup(ft_strchr(tmp, '\n'));
-	return (buf);
+	printf("buf [%s]\n", buf);
+	return (1);
 }
 
-static char			*bnbuf(char **line, char *buf)
+void		ini_list(t_2list *list, const int fd)
 {
-	*line = beforebn("", buf);
-	buf = ft_strdup(ft_strchr(buf, '\n'));
-	return (buf);
+		list->buf = "";
+		list->fd = fd;
 }
 
 int			get_next_line(const int fd, char **line)
 {
-	static char		*buf = "";
-	char			tmp[BUFF_SIZE + 1];
+	static t_2list	*list = NULL;
 	int				ret;
-	printf("mon buf au debut [%s]\n", buf);
+
+	if (list == NULL)
+	{
+		list = (t_2list *)malloc(sizeof(t_2list));
+		ini_list(list, fd);
+	}
+	printf("buf [%s]\n", list->buf);
 	if (fd == -1 || BUFF_SIZE < 1 || read(fd, "", 0))
 		return (-1);
-	while ((ret = read(fd, tmp, BUFF_SIZE)) != 0)
+	while ((ret = read(fd, list->tmp, BUFF_SIZE)) != 0)
 	{
-		tmp[ret] = '\0';
-		printf("ici-----buf[%s] ici-----------tmp[%s]\n", buf, tmp);
-		if (!(ft_strchr(tmp, '\n') == NULL))
-		{
-			buf = bntmp(line, buf, tmp);
-			return (1);
-		}
-		buf = ft_strjoin(buf, tmp);
+		list->tmp[ret] = '\0';
+		if (!(ft_strchr(list->tmp, '\n') == NULL))
+			return(bntmp(line, list->buf, list->tmp));
+		list->buf = ft_strjoin(list->buf, list->tmp);
 	}
-	if (buf != NULL && *buf != '\0')
+	if (list->buf != NULL && *(list->buf) != '\0')
 	{
-		printf("je suis la [%s]\n", buf);
-		if (ft_strchr(buf, '\n') != NULL)
-		{
-			buf = bnbuf(line, buf);
-			return (1);
-		}
-		*line = ft_strdup(buf);
-		buf = NULL;
-		free(buf);
+		if (ft_strchr(list->buf, '\n') != NULL)
+			return (bntmp(line, "", list->buf));
+		*line = ft_strdup(list->buf);
+		list->buf = NULL;
+		free(list);
 		return (1);
 	}
 	return (0);
