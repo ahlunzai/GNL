@@ -26,8 +26,8 @@ int     main(int ac, char **av)
 		{
 			write(1, line, ft_strlen(line));
 			write(1, "\n", 1);
+			free(line);
 		}
-		//free(line);
 	}
 	printf("jai termine mon main");
 	return (0);

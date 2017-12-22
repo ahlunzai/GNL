@@ -47,12 +47,14 @@ int			get_next_line(const int fd, char **line)
 {
 	static char		*buf = "";
 	char			tmp[BUFF_SIZE + 1];
-
+	int				ret;
+	printf("mon buf au debut [%s]\n", buf);
 	if (fd == -1 || BUFF_SIZE < 1 || read(fd, "", 0))
 		return (-1);
-	while ((read(fd, tmp, BUFF_SIZE)) != 0)
+	while ((ret = read(fd, tmp, BUFF_SIZE)) != 0)
 	{
-		printf("ici-----[%s]\n", buf);
+		tmp[ret] = '\0';
+		printf("ici-----buf[%s] ici-----------tmp[%s]\n", buf, tmp);
 		if (!(ft_strchr(tmp, '\n') == NULL))
 		{
 			buf = bntmp(line, buf, tmp);
@@ -69,6 +71,7 @@ int			get_next_line(const int fd, char **line)
 			return (1);
 		}
 		*line = ft_strdup(buf);
+		buf = NULL;
 		free(buf);
 		return (1);
 	}

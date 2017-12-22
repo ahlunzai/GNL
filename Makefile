@@ -10,11 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-GG = gcc
+GG = clang
 
 CFLAG = -Wall -Wextra -Werror -O1 -g -fsanitize=address -fno-omit-frame-pointer -fsanitize-address-use-after-scope
 
-NAME = a.out
+NAME = get_next_line
 
 SRC = main.c \
 	  get_next_line.c \
