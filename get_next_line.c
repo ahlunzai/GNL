@@ -6,7 +6,7 @@
 /*   By: gsysaath <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 01:54:28 by gsysaath          #+#    #+#             */
-/*   Updated: 2017/12/22 07:42:55 by gsysaath         ###   ########.fr       */
+/*   Updated: 2018/01/08 07:15:04 by gsysaath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int			bntmp(char **line, char *buf, char *tmp)
 {
 	*line = beforebn(buf, tmp);
 	buf = ft_strdup(ft_strchr(tmp, '\n'));
-	printf("buf [%s]\n", buf);
+	printf("buf dans bntmp [%s]\n\n", buf);
 	return (1);
 }
 
@@ -47,17 +47,20 @@ int			get_next_line(const int fd, char **line)
 	static t_2list	*list = NULL;
 	int				ret;
 
+	while (list != NULL && list->fd != fd)
+		list = list->next;
 	if (list == NULL)
 	{
 		list = (t_2list *)malloc(sizeof(t_2list));
 		ini_list(list, fd);
 	}
-	printf("buf [%s]\n", list->buf);
+	printf("buf dans main [%s]\n\n", list->buf);
 	if (fd == -1 || BUFF_SIZE < 1 || read(fd, "", 0))
 		return (-1);
 	while ((ret = read(fd, list->tmp, BUFF_SIZE)) != 0)
 	{
 		list->tmp[ret] = '\0';
+		printf("tmp [%s]\n\n", list->tmp);
 		if (!(ft_strchr(list->tmp, '\n') == NULL))
 			return(bntmp(line, list->buf, list->tmp));
 		list->buf = ft_strjoin(list->buf, list->tmp);
