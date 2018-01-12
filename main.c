@@ -6,7 +6,7 @@
 /*   By: gsysaath <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 00:01:20 by gsysaath          #+#    #+#             */
-/*   Updated: 2017/12/19 13:42:22 by gsysaath         ###   ########.fr       */
+/*   Updated: 2018/01/12 00:28:06 by gsysaath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int     main(int ac, char **av)
 		while(get_next_line(fd, &line) == 1)
 		{
 			write(1, line, ft_strlen(line));
-			write(1, "\n", 1);
+			write(1, "\n\n", 2);
 			free(line);
 		}
 	}

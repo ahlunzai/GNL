@@ -6,7 +6,7 @@
 /*   By: gsysaath <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 01:54:28 by gsysaath          #+#    #+#             */
-/*   Updated: 2018/01/11 07:32:15 by gsysaath         ###   ########.fr       */
+/*   Updated: 2018/01/12 01:08:52 by gsysaath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,19 @@ char		*beforebn(char *buf, char *tmp)
 {
 	int		i;
 	char	*s1;
-	char	*s2;
 
 	i = 0;
-	s1 = ft_strdup(buf);
-	s2 = ft_strdup(tmp);
-	while (s1[i] && s1[i] != '\n')
-	{
+	s1 = (ft_strjoin(buf, tmp));
+	while (s1[i] != '\n')
 		i++;
-		if (s1[i] == '\n')
-		{
-			s1[i] = '\0';
-			return (s1);
-		}
-	}
-	i = 0;
-	while (s2[i] != '\n')
-		i++;
-	s2[i] = '\0';
-	return (ft_strjoin(s1, s2));
+	s1[i] = '\0';
+	return (ft_strdup(s1));
 }
 
 static int			backslashndanstmp(char **line, t_2list *save, t_2list *list)
 {
 	*line = beforebn(list->buf, list->tmp);
-	list->buf = ft_strdup(ft_strchr(list->tmp, '\n'));
-	printf("list-> buf%s\n", list->buf);
+	list->buf = ft_strdup(ft_strchr(ft_strjoin(list->buf, list->tmp), '\n'));
 	list = save;
 	return (1);
 }
@@ -55,10 +42,15 @@ static int			dansbuf(char **line, t_2list *save, t_2list *list)
 	return (1);
 }
 
-void		ini_list(t_2list *list, const int fd)
+t_2list		*ini_list(const int fd)
 {
-		list->buf = "";
-		list->fd = fd;
+	t_2list		*list;
+
+	list = (t_2list *)malloc(sizeof(t_2list));
+	list->buf = "";
+	list->fd = fd;
+	list->next = (t_2list *)malloc(sizeof(t_2list));
+	return (list);
 }
 
 int			get_next_line(const int fd, char **line)
@@ -66,25 +58,14 @@ int			get_next_line(const int fd, char **line)
 	static t_2list	*list = NULL;
 	t_2list			*save;
 	int				ret;
-	static int		i = 0;
 
-	i++;
-	printf("%d\n", i);
 	if (list == NULL)
-	{
-		list = (t_2list *)malloc(sizeof(t_2list));
-		ini_list(list, fd);
-	}
+		list = ini_list(fd);
 	save = list;
 	while (list != NULL && list->fd != fd)
-	{
 		list = list->next;
-		if (list == NULL)
-		{
-		list = (t_2list *)malloc(sizeof(t_2list));
-		ini_list(list, fd);
-		}
-	}
+	if (list == NULL)
+		ini_list(fd);
 	if (fd == -1 || BUFF_SIZE < 1 || read(fd, "", 0))
 		return (-1);
 	while ((ret = read(fd, list->tmp, BUFF_SIZE)) != 0)
