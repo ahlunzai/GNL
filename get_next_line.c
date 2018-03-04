@@ -6,7 +6,7 @@
 /*   By: gsysaath <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 01:54:28 by gsysaath          #+#    #+#             */
-/*   Updated: 2018/01/08 07:15:04 by gsysaath         ###   ########.fr       */
+/*   Updated: 2018/01/12 01:08:52 by gsysaath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char *join_free(char *str, char *buff)
 	free(str);
 	return (tmp);
 }
-
 
 int get_next_line(int const fd, char **line)
 {
