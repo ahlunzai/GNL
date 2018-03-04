@@ -16,14 +16,6 @@
 # include "libft/libft.h"
 # define BUFF_SIZE 8
 
-typedef struct			s_2list
-{
-	int					fd;
-	char				*buf;
-	char				tmp[BUFF_SIZE + 1];
-	struct s_2list		*next;
-}						t_2list;
-
 int		get_next_line(const int fd, char **line);
 
 #endif
